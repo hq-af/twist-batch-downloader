@@ -59,7 +59,7 @@ try {
       const ep_url = sources[ep_i];
       
       try {
-        console.log(`  - [${Number(ep_i)-Number(anime.start)+2}/${anime.end-anime.start+1}] Downloading EP${ep_i+1} : '${ep_url}'`.gray);
+        console.log(`  - [${Number(ep_i)-Number(anime.start)+2}/${anime.end-anime.start+1}] Downloading EP${ep_i+1} : '${ep_url.substring(ep_url.lastIndexOf('/') + 1)}'`.gray);
         
         const folderPath = `${destinationFolder}/${anime.id}`;
         Utils.mkdirIfNotExistSync(folderPath);
