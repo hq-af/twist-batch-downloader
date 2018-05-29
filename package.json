@@ -1,0 +1,37 @@
+{
+  "name": "twist-batch-downloader",
+  "version": "0.0.1",
+  "description": "Batch Anime Downloader for Twist.moe",
+  "main": "index.js",
+  "scripts": {
+    "build:windows": "nexe index.js -t x86-8.0.0 -o ./build/twist-batch-downloader.exe"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hq-af/twist-batch-downloader.git"
+  },
+  "keywords": [
+    "anime",
+    "batch",
+    "twist.moe",
+    "twist",
+    "download",
+    "nani"
+  ],
+  "author": "hq.af <hq.af@protonmail.ch> (https://github.com/hq-af)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/hq-af/twist-batch-downloader/issues"
+  },
+  "homepage": "https://github.com/hq-af/twist-batch-downloader#readme",
+  "dependencies": {
+    "colors": "^1.3.0",
+    "crypto-js": "^3.1.9-1",
+    "minimist": "^1.2.0",
+    "request": "^2.87.0",
+    "request-progress": "^3.0.0"
+  },
+  "devDependencies": {
+    "nexe": "^2.0.0-rc.28"
+  }
+}
