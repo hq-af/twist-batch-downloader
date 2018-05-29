@@ -31,7 +31,7 @@ module.exports = {
    */
   downloadFile(url, folderPath, onProgress) {
 
-    const fileName = url.substring(ep_url.lastIndexOf('/') + 1);
+    const fileName = url.substring(url.lastIndexOf('/') + 1);
 
     return new Promise((resolve, reject) => {
       RequestProgress(
