@@ -1,5 +1,4 @@
 const CryptoJS = require('crypto-js'),
-      CONFIG   = require('./config'),
       fs       = require('fs'),
       colors   = require('colors');
 
@@ -7,10 +6,11 @@ module.exports = {
   /**
    * Decrypt URL
    * @param {string} encrypted encrypted URL
+   * @param {string} key decryption key
    */
-  decryptURL(encrypted) {
+  decryptURL(encrypted, key) {
     return CryptoJS.enc.Utf8.stringify(
-      CryptoJS.AES.decrypt(encrypted, CONFIG.AES_KEY)
+      CryptoJS.AES.decrypt(encrypted, key)
     );
   },
 
@@ -21,15 +21,15 @@ module.exports = {
    */
   parseAnimeStr(str) {
     const matches = /([^\/]+)(?:\/(\d+)?(-(\d+)?)?)?$/.exec(str);
-  
+
     if (!matches) {
       throw `Cannot parse '${str}'`;
     }
-  
+
     const id = matches[1];
     const start = parseInt(matches[2]) || 1;
     const end = matches[3] ? (parseInt(matches[4]) || null) : matches[2] ? start : null;
-    
+
     return {
       id,
       start,

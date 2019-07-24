@@ -1,0 +1,7 @@
+{
+  "ACCESS_TOKEN": "1rj2vRtegS8Y60B3w3qNZm5T2Q0TN2NR",
+  "AES_KEY": "LXgIVP&PorO68Rq7dTx8N^lP!Fa5sGJ^*XK",
+  "DEFAULT_PATH": "./downloads",
+  "VERSION": "0.0.2",
+  "UPDATE_URL": "https://raw.githubusercontent.com/hq-af/twist-batch-downloader/master/config.json"
+}

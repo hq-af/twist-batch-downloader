@@ -1,33 +1,61 @@
-const CONFIG = require('./config'),
+const CONFIG = require('./config.json'),
       ARGV   = require('minimist')(process.argv.slice(2)),
       colors = require('colors'),
       Utils  = require('./utils'),
       Net    = require('./net');
 
 
-if (ARGV._.length === 0)
-  Utils.exitErr('Please specify at least one anime to download');
+const readline = require('readline').createInterface({
+  input: process.stdin,
+  output: process.stdout
+});
 
-const animes = [];
 
-ARGV._.forEach(str => {
+(async function() {
+
+  let LIVE;
+
   try {
-    animes.push(Utils.parseAnimeStr(str));
+    LIVE = await Net.getLiveVersion();
   } catch (ex) {
     Utils.exitErr(ex);
   }
-});
 
-const destinationFolder = ARGV.destination && typeof(ARGV.destination) === 'string' ? ARGV.destination : CONFIG.DEFAULT_PATH;
+  if (CONFIG.VERSION !== LIVE.VERSION) {
+    console.log((`>> New version is available (${colors.bold(LIVE.VERSION)})\n`.white).bgGreen);
+  }
 
-try {
-  Utils.mkdirIfNotExistSync(destinationFolder);
-} catch (ex) {
-  Utils.exitErr(ex);
-}
+  if (ARGV._.length === 0){
 
-(async function() {
- 
+    ARGV._ = await (() => {
+      return new Promise((resolve) => {
+        readline.question(`Anime(s) id(s) (read github documentation) : `, (args) => {
+          readline.close();
+          resolve(args.trim().split(' '));
+        });
+      })
+    })();
+
+  }
+
+  const animes = [];
+
+  ARGV._.forEach(str => {
+    try {
+      animes.push(Utils.parseAnimeStr(str));
+    } catch (ex) {
+      Utils.exitErr(ex);
+    }
+  });
+
+  const destinationFolder = ARGV.destination && typeof(ARGV.destination) === 'string' ? ARGV.destination : CONFIG.DEFAULT_PATH;
+
+  try {
+    Utils.mkdirIfNotExistSync(destinationFolder);
+  } catch (ex) {
+    Utils.exitErr(ex);
+  }
+
   const GStartTime = new Date();
 
   animeLoop:
@@ -36,12 +64,12 @@ try {
     const AStartTime = new Date();
 
     const anime = animes[i];
-    
+
     console.log(`> [${Number(i)+1}/${animes.length}] Downloading '${colors.bold(anime.id)}'`.green);
 
     var sources;
     try {
-      sources = await Net.getSources(anime.id);
+      sources = await Net.getSources(anime.id, LIVE.ACCESS_TOKEN, LIVE.AES_KEY);
     } catch (ex) {
       Utils.logErr(`  - Error while fetching sources for '${colors.bold(anime.id)}' (${ex})`);
       continue animeLoop;
@@ -57,10 +85,10 @@ try {
     episodeLoop:
     for (var ep_i = anime.start-1; ep_i < Math.min(anime.end, sources.length); ep_i++) {
       const ep_url = sources[ep_i];
-      
+
       try {
         console.log(`  - [${Number(ep_i)-Number(anime.start)+2}/${anime.end-anime.start+1}] Downloading EP${ep_i+1} : '${ep_url.substring(ep_url.lastIndexOf('/') + 1)}'`.gray);
-        
+
         const folderPath = `${destinationFolder}/${anime.id}`;
         Utils.mkdirIfNotExistSync(folderPath);
 
