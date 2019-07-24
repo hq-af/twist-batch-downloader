@@ -5,11 +5,6 @@ const CONFIG = require('./config.json'),
       Net    = require('./net');
 
 
-const readline = require('readline').createInterface({
-  input: process.stdin,
-  output: process.stdout
-});
-
 
 (async function() {
 
@@ -26,16 +21,7 @@ const readline = require('readline').createInterface({
   }
 
   if (ARGV._.length === 0){
-
-    ARGV._ = await (() => {
-      return new Promise((resolve) => {
-        readline.question(`Anime(s) id(s) (read github documentation) : `, (args) => {
-          readline.close();
-          resolve(args.trim().split(' '));
-        });
-      })
-    })();
-
+    ARGV._ = (await Utils.input('Anime(s) id(s) (read github documentation) : ')).trim().split(' ');
   }
 
   const animes = [];

@@ -2,6 +2,13 @@ const CryptoJS = require('crypto-js'),
       fs       = require('fs'),
       colors   = require('colors');
 
+
+const readline = require('readline').createInterface({
+  input: process.stdin,
+  output: process.stdout
+});
+
+
 module.exports = {
   /**
    * Decrypt URL
@@ -59,5 +66,17 @@ module.exports = {
   exitErr(err) {
     this.logErr(err);
     process.exit(1);
+  },
+
+  /**
+   * Read user input
+   */
+  input(question) {
+    return new Promise((resolve) => {
+      readline.question(question, (response) => {
+        readline.close();
+        resolve(response);
+      });
+    })
   }
 }

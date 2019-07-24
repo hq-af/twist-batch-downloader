@@ -4,7 +4,7 @@
   "description": "Batch Anime Downloader for Twist.moe",
   "main": "index.js",
   "scripts": {
-    "build:windows": "nexe index.js -t x86-8.0.0 -o ./build/twist-batch-downloader.exe"
+    "build:windows": "nexe index.js -t x86-10.15.0 -o ./build/twist-batch-downloader.exe"
   },
   "repository": {
     "type": "git",
@@ -30,9 +30,10 @@
     "minimist": "^1.2.0",
     "readline": "^1.3.0",
     "request": "^2.87.0",
-    "request-progress": "^3.0.0"
+    "request-progress": "^3.0.0",
+    "typescript": "^3.5.3"
   },
   "devDependencies": {
-    "nexe": "^2.0.0-rc.28"
+    "nexe": "^3.3.2"
   }
 }
